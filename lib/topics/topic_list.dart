@@ -28,29 +28,24 @@ class _TopicsState extends State<TopicsPage> {
                 itemBuilder: (context, index) {
                   DocumentSnapshot ds = snapshot.data.documents[index];
                   return Card(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        InkWell(
+                      child: InkWell(
                           onTap: () {
-//                            fiapp go to next page
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-//                                  fiapp pass document id
                                       TopicDetailPage(ds.documentID)),
                             );
                           },
-                          child: ListTile(
-                            leading: const Icon(Icons.settings_power),
-                            title: Text("${ds['title']}"),
-                            subtitle: Text("${ds['description']}"),
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
+                          child: Column(
+                            children: <Widget>[
+                              ListTile(
+                                leading: const Icon(Icons.settings_power),
+                                title: Text("${ds['title']}"),
+                                subtitle: Text("${ds['description']}"),
+                              ),
+                            ],
+                          )));
                 });
           }),
       floatingActionButton: FloatingActionButton(

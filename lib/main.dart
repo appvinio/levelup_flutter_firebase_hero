@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:level_up_firebase_with_hero/topics/topic_list.dart';
-//fiapp import firestore
 void main() => runApp(new MyApp());
 
 class MyApp extends StatelessWidget {
