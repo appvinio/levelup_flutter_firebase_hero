@@ -27,14 +27,12 @@ class _TopicDetailState extends State<TopicDetailPage> {
       appBar: new AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-//        fiapp bind name
         title: StreamBuilder(
             stream: Firestore.instance.collection('topics').document(documentId).snapshots(),
             builder: (context, snapshot) {
               return Text("${snapshot.data["title"]}");
             }),
       ),
-      //        fiapp bind desc
       body: StreamBuilder(
           stream: Firestore.instance.collection('topics').document(documentId).snapshots(),
           builder: (context, snapshot) {

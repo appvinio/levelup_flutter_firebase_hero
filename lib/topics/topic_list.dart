@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:level_up_firebase_with_hero/resources/flutter_firebase_hero_icons.dart';
 import 'package:level_up_firebase_with_hero/topics/topic_detail.dart';
 
 class TopicsPage extends StatefulWidget {
@@ -17,7 +18,7 @@ class _TopicsState extends State<TopicsPage> {
         title: new Text("Topics"),
       ),
       body: StreamBuilder(
-          stream: Firestore.instance.collection('topics').snapshots(),
+          stream: Firestore.instance.collection('topics').orderBy("value", descending: true).snapshots(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) return const Text('Loading...');
             if (snapshot.data.documents.length == 0)
@@ -37,15 +38,35 @@ class _TopicsState extends State<TopicsPage> {
                                       TopicDetailPage(ds.documentID)),
                             );
                           },
-                          child: Column(
-                            children: <Widget>[
-                              ListTile(
-                                leading: const Icon(Icons.settings_power),
-                                title: Text("${ds['title']}"),
-                                subtitle: Text("${ds['description']}"),
-                              ),
-                            ],
-                          )));
+                          child: Column(children: <Widget>[
+                            ListTile(
+//                              fiapp bind value for topic
+                              leading: Text("${ds['value']}",
+                              style: TextStyle(color: Colors.red, fontSize: 30.0, fontWeight: FontWeight.bold),),
+                              title: Text("${ds['title']}"),
+                              subtitle: Text("${ds['description']}"),
+                            ),
+                            ButtonBar(
+                              children: <Widget>[
+                                IconButton(
+                                    icon:
+                                    Icon(FFHIcon.heart, color: Colors.red),
+                                    onPressed: () {
+//                                      fiapp increment value for topic
+                                      Firestore.instance.collection("topics").document(ds.documentID).updateData({'value' : ds['value'] + 1});
+                                    }),
+                                IconButton(
+                                    icon: Icon(
+                                      FFHIcon.heart_empty,
+                                      color: Colors.red,
+                                    ),
+                                    onPressed: () {
+//                                      fiapp decrement value for topic
+                                      Firestore.instance.collection("topics").document(ds.documentID).updateData({'value' : ds['value'] - 1});
+                                    }),
+                              ],
+                            )
+                          ])));
                 });
           }),
       floatingActionButton: FloatingActionButton(
