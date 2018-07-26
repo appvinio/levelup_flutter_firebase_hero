@@ -14,11 +14,15 @@ class _TopicsState extends State<TopicsPage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      backgroundColor: Colors.blueAccent,
       appBar: new AppBar(
         title: new Text("Topics"),
       ),
       body: StreamBuilder(
-          stream: Firestore.instance.collection('topics').orderBy("value", descending: true).snapshots(),
+          stream: Firestore.instance
+              .collection('topics')
+              .orderBy("value", descending: true)
+              .snapshots(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) return const Text('Loading...');
             if (snapshot.data.documents.length == 0)
@@ -34,42 +38,68 @@ class _TopicsState extends State<TopicsPage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      TopicDetailPage(ds.documentID)),
+                                  builder: (context) => TopicDetailPage(ds)),
                             );
                           },
-                          child: Column(children: <Widget>[
-                            ListTile(
-//                              fiapp bind value for topic
-                              leading: Text("${ds['value']}",
-                              style: TextStyle(color: Colors.red, fontSize: 30.0, fontWeight: FontWeight.bold),),
-                              title: Text("${ds['title']}"),
-                              subtitle: Text("${ds['description']}"),
+                          child: Container(
+                              child: Stack(children: <Widget>[
+//                                fiapp fill container size to card
+                            Positioned.fill(
+//                              fiapp Hero for expand Card
+                              child: Hero(
+//                                fiapp tag!
+                                tag: ds.documentID,
+                                child: Container(
+                                  decoration: new BoxDecoration(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
                             ),
-                            ButtonBar(
-                              children: <Widget>[
-                                IconButton(
-                                    icon:
-                                    Icon(FFHIcon.heart, color: Colors.red),
-                                    onPressed: () {
-//                                      fiapp increment value for topic
-                                      Firestore.instance.collection("topics").document(ds.documentID).updateData({'value' : ds['value'] + 1});
-                                    }),
-                                IconButton(
-                                    icon: Icon(
-                                      FFHIcon.heart_empty,
-                                      color: Colors.red,
+                            Column(children: <Widget>[
+                              ListTile(
+                                leading: Text(
+                                      "${ds['value']}",
+                                      style: TextStyle(
+                                          color: Colors.red,
+                                          fontSize: 30.0,
+                                          fontWeight: FontWeight.bold),
                                     ),
-                                    onPressed: () {
-//                                      fiapp decrement value for topic
-                                      Firestore.instance.collection("topics").document(ds.documentID).updateData({'value' : ds['value'] - 1});
-                                    }),
-                              ],
-                            )
-                          ])));
+                                title: Text("${ds['title']}"),
+                                subtitle: Text("${ds['description']}"),
+                              ),
+                              ButtonBar(
+                                children: <Widget>[
+                                  IconButton(
+                                      icon: Icon(FFHIcon.heart,
+                                          color: Colors.red),
+                                      onPressed: () {
+                                        Firestore.instance
+                                            .collection("topics")
+                                            .document(ds.documentID)
+                                            .updateData(
+                                                {'value': ds['value'] + 1});
+                                      }),
+                                  IconButton(
+                                      icon: Icon(
+                                        FFHIcon.heart_empty,
+                                        color: Colors.red,
+                                      ),
+                                      onPressed: () {
+                                        Firestore.instance
+                                            .collection("topics")
+                                            .document(ds.documentID)
+                                            .updateData(
+                                                {'value': ds['value'] - 1});
+                                      }),
+                                ],
+                              )
+                            ])
+                          ]))));
                 });
           }),
       floatingActionButton: FloatingActionButton(
+        onPressed: () {},
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
