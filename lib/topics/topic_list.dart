@@ -53,12 +53,16 @@ class _TopicsState extends State<TopicsPage> {
                               builder: (context) => TopicDetailPage(ds)),
                         );
                       },
-                      child: Column(children: <Widget>[
+                      child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: <Widget>[
                         ListTile(
                           leading: Hero(
                             tag: "${ds.documentID}_value",
-//                            fiapp Material for better Animation bounds
                             child: Material(
+                                color: Colors.transparent,
                                 child: Text(
                               "${ds['value']}",
                               style: TextStyle(
@@ -67,30 +71,36 @@ class _TopicsState extends State<TopicsPage> {
                                   fontWeight: FontWeight.bold),
                             )),
                           ),
-                          title: Text("${ds['title']}"),
-                          subtitle: Text("${ds['description']}"),
+                          title: Hero(tag: "${ds.documentID}_title", child: Material(color: Colors.transparent, child: Text("${ds['title']}"),),),
+                          subtitle: Hero(tag: "${ds.documentID}_desc", child: Material(color: Colors.transparent, child: Text("${ds['description']}"),),),
                         ),
                         ButtonBar(
                           children: <Widget>[
-                            IconButton(
-                                icon: Icon(FFHIcon.heart, color: Colors.red),
-                                onPressed: () {
-                                  Firestore.instance
-                                      .collection("topics")
-                                      .document(ds.documentID)
-                                      .updateData({'value': ds['value'] + 1});
-                                }),
-                            IconButton(
-                                icon: Icon(
-                                  FFHIcon.heart_empty,
-                                  color: Colors.red,
-                                ),
-                                onPressed: () {
-                                  Firestore.instance
-                                      .collection("topics")
-                                      .document(ds.documentID)
-                                      .updateData({'value': ds['value'] - 1});
-                                }),
+                            Hero(
+                              tag: "${ds.documentID}_value_inc",
+                              child: Material(child: IconButton(
+                                  color: Colors.transparent,
+                                  icon: Icon(FFHIcon.heart, color: Colors.red),
+                                  onPressed: () {
+                                    Firestore.instance
+                                        .collection("topics")
+                                        .document(ds.documentID)
+                                        .updateData({'value': ds['value'] + 1});
+                                  })),
+                            ),
+                            Hero(
+                              tag: "${ds.documentID}_value_dec",
+                              child: Material(child: IconButton(
+                                  color: Colors.transparent,
+                                  icon: Icon(FFHIcon.heart_empty, color: Colors.red),
+                                  onPressed: () {
+                                    Firestore.instance
+                                        .collection("topics")
+                                        .document(ds.documentID)
+                                        .updateData({'value': ds['value'] - 1});
+                                  }))
+                              ,
+                            ),
                           ],
                         )
                       ]),
