@@ -33,69 +33,69 @@ class _TopicsState extends State<TopicsPage> {
                 itemBuilder: (context, index) {
                   DocumentSnapshot ds = snapshot.data.documents[index];
                   return Card(
-                      child: InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => TopicDetailPage(ds)),
-                            );
-                          },
-                          child: Container(
-                              child: Stack(children: <Widget>[
-//                                fiapp fill container size to card
-                            Positioned.fill(
-//                              fiapp Hero for expand Card
-                              child: Hero(
-//                                fiapp tag!
-                                tag: ds.documentID,
-                                child: Container(
-                                  decoration: new BoxDecoration(
-                                    color: Colors.white,
-                                  ),
+                      child: Container(
+                          child: Stack(children: <Widget>[
+                    Positioned.fill(
+                      child: Hero(
+                        tag: ds.documentID,
+                        child: Container(
+                          decoration: new BoxDecoration(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => TopicDetailPage(ds)),
+                        );
+                      },
+                      child: Column(children: <Widget>[
+                        ListTile(
+                          leading: Hero(
+                            tag: "${ds.documentID}_value",
+//                            fiapp Material for better Animation bounds
+                            child: Material(
+                                child: Text(
+                              "${ds['value']}",
+                              style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 30.0,
+                                  fontWeight: FontWeight.bold),
+                            )),
+                          ),
+                          title: Text("${ds['title']}"),
+                          subtitle: Text("${ds['description']}"),
+                        ),
+                        ButtonBar(
+                          children: <Widget>[
+                            IconButton(
+                                icon: Icon(FFHIcon.heart, color: Colors.red),
+                                onPressed: () {
+                                  Firestore.instance
+                                      .collection("topics")
+                                      .document(ds.documentID)
+                                      .updateData({'value': ds['value'] + 1});
+                                }),
+                            IconButton(
+                                icon: Icon(
+                                  FFHIcon.heart_empty,
+                                  color: Colors.red,
                                 ),
-                              ),
-                            ),
-                            Column(children: <Widget>[
-                              ListTile(
-                                leading: Text(
-                                      "${ds['value']}",
-                                      style: TextStyle(
-                                          color: Colors.red,
-                                          fontSize: 30.0,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                title: Text("${ds['title']}"),
-                                subtitle: Text("${ds['description']}"),
-                              ),
-                              ButtonBar(
-                                children: <Widget>[
-                                  IconButton(
-                                      icon: Icon(FFHIcon.heart,
-                                          color: Colors.red),
-                                      onPressed: () {
-                                        Firestore.instance
-                                            .collection("topics")
-                                            .document(ds.documentID)
-                                            .updateData(
-                                                {'value': ds['value'] + 1});
-                                      }),
-                                  IconButton(
-                                      icon: Icon(
-                                        FFHIcon.heart_empty,
-                                        color: Colors.red,
-                                      ),
-                                      onPressed: () {
-                                        Firestore.instance
-                                            .collection("topics")
-                                            .document(ds.documentID)
-                                            .updateData(
-                                                {'value': ds['value'] - 1});
-                                      }),
-                                ],
-                              )
-                            ])
-                          ]))));
+                                onPressed: () {
+                                  Firestore.instance
+                                      .collection("topics")
+                                      .document(ds.documentID)
+                                      .updateData({'value': ds['value'] - 1});
+                                }),
+                          ],
+                        )
+                      ]),
+                    ),
+                  ])));
                 });
           }),
       floatingActionButton: FloatingActionButton(

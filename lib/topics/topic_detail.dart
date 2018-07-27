@@ -26,7 +26,6 @@ class _TopicDetailState extends State<TopicDetailPage> {
 
     return new Stack(children: <Widget>[
       Hero(
-//        fiapp tag!
         tag: snapshots.documentID,
         child: new Container(
           decoration: new BoxDecoration(
@@ -36,17 +35,37 @@ class _TopicDetailState extends State<TopicDetailPage> {
         ),
       ),
       new Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: new AppBar(
           backgroundColor: Colors.transparent,
-          elevation: 0.0,
-          leading: new IconButton(
-            icon: new Icon(Icons.arrow_back, color: Colors.blue,),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
+          appBar: new AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0.0,
+            leading: new IconButton(
+              icon: new Icon(Icons.arrow_back, color: Colors.blue,),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
           ),
-        ),
+          body: Center(
+              child: StreamBuilder(
+                  builder: (context, snapshot) {
+                    var value = snapshot.hasData ? snapshot.data['value'] : snapshots['value'];
+                    return Hero(
+                      tag: "${snapshots.documentID}_value",
+//                            fiapp Material for better Animation bounds
+                      child: Material(
+                        child: Text(
+                          "$value",
+                          style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 30.0,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    );
+                  }
+              )
+          ),
       )
     ]);
   }
