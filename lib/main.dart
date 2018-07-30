@@ -4,7 +4,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:level_up_firebase_with_hero/topics/topic_list.dart';
 
 void main() {
-  timeDilation = 5.0;
+  timeDilation = 20.0;
 //  debugPaintSizeEnabled=true;
   runApp(MyApp());
 }

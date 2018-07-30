@@ -58,52 +58,86 @@ class _TopicsState extends State<TopicsPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: <Widget>[
-                        ListTile(
-                          leading: Hero(
-                            tag: "${ds.documentID}_value",
-                            child: Material(
-                                color: Colors.transparent,
-                                child: Text(
-                              "${ds['value']}",
-                              style: TextStyle(
-                                  color: Colors.red,
-                                  fontSize: 30.0,
-                                  fontWeight: FontWeight.bold),
-                            )),
-                          ),
-                          title: Hero(tag: "${ds.documentID}_title", child: Material(color: Colors.transparent, child: Text("${ds['title']}"),),),
-                          subtitle: Hero(tag: "${ds.documentID}_desc", child: Material(color: Colors.transparent, child: Text("${ds['description']}"),),),
-                        ),
-                        ButtonBar(
-                          children: <Widget>[
-                            Hero(
-                              tag: "${ds.documentID}_value_inc",
-                              child: Material(child: IconButton(
+                            ListTile(
+                              leading: Hero(
+                                tag: "${ds.documentID}_value",
+                                child: Material(
+                                    color: Colors.transparent,
+                                    child: new FittedBox(
+                                        fit: BoxFit.contain,
+                                        child: Text(
+                                          "${ds['value']}",
+                                          style: TextStyle(
+                                              color: Colors.red,
+                                              fontSize: 30.0,
+                                              fontWeight: FontWeight.bold),
+                                        ))),
+                              ),
+                              title: Hero(
+                                tag: "${ds.documentID}_title",
+                                child: Material(
                                   color: Colors.transparent,
-                                  icon: Icon(FFHIcon.heart, color: Colors.red),
-                                  onPressed: () {
-                                    Firestore.instance
-                                        .collection("topics")
-                                        .document(ds.documentID)
-                                        .updateData({'value': ds['value'] + 1});
-                                  })),
-                            ),
-                            Hero(
-                              tag: "${ds.documentID}_value_dec",
-                              child: Material(child: IconButton(
+                                  child: Text("${ds['title']}"),
+                                ),
+                              ),
+                              subtitle: Hero(
+                                tag: "${ds.documentID}_desc",
+                                child: Material(
                                   color: Colors.transparent,
-                                  icon: Icon(FFHIcon.heart_empty, color: Colors.red),
-                                  onPressed: () {
-                                    Firestore.instance
-                                        .collection("topics")
-                                        .document(ds.documentID)
-                                        .updateData({'value': ds['value'] - 1});
-                                  }))
-                              ,
+                                  child: Text("${ds['description']}"),
+                                ),
+                              ),
                             ),
-                          ],
-                        )
-                      ]),
+                            ButtonBar(
+                              children: <Widget>[
+                                Hero(
+                                  tag: "${ds.documentID}_value_inc",
+                                  child: Material(
+                                      child: new FittedBox(
+                                          fit: BoxFit.contain,
+                                          child: IconButton(
+                                              color: Colors.transparent,
+                                              icon: Icon(
+                                                FFHIcon.heart,
+                                                color: Colors.red,
+//                                                fiapp right size
+                                                size: 32.0,
+                                              ),
+                                              onPressed: () {
+                                                Firestore.instance
+                                                    .collection("topics")
+                                                    .document(ds.documentID)
+                                                    .updateData({
+                                                  'value': ds['value'] + 1
+                                                });
+                                              }))),
+                                ),
+                                Hero(
+                                  tag: "${ds.documentID}_value_dec",
+                                  child: Material(
+                                      color: Colors.transparent,
+                                      child: new FittedBox(
+                                          fit: BoxFit.contain,
+                                          child: IconButton(
+                                              color: Colors.transparent,
+                                              icon: Icon(
+                                                FFHIcon.heart_empty,
+                                                color: Colors.red,
+//                                                fiapp right size
+                                                size: 32.0,
+                                              ),
+                                              onPressed: () {
+                                                Firestore.instance
+                                                    .collection("topics")
+                                                    .document(ds.documentID)
+                                                    .updateData({
+                                                  'value': ds['value'] - 1
+                                                });
+                                              }))),
+                                ),
+                              ],
+                            )
+                          ]),
                     ),
                   ])));
                 });

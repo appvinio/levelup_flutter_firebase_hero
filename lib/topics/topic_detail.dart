@@ -83,50 +83,62 @@ class _TopicDetailState extends State<TopicDetailPage> {
                           tag: "${snapshots.documentID}_value",
                           child: Material(
                               color: Colors.transparent,
-                              child: Text(
-                                snapshot.hasData
-                                    ? "${snapshot.data['value']}"
-                                    : "${snapshots['value']}",
-                                style: TextStyle(
-                                    color: Colors.red,
-                                    fontSize: 50.0,
-                                    fontWeight: FontWeight.bold),
-                              )),
+                              child: new FittedBox(
+                                  fit: BoxFit.contain,
+                                  child: Text(
+                                    snapshot.hasData
+                                        ? "${snapshot.data['value']}"
+                                        : "${snapshots['value']}",
+                                    style: TextStyle(
+                                        color: Colors.red,
+                                        fontSize: 50.0,
+                                        fontWeight: FontWeight.bold),
+                                  ))),
                         ),
                         Hero(
                           tag: "${snapshots.documentID}_value_inc",
                           child: Material(
-                              color: Colors.transparent,
-                              child: IconButton(
-//                                fiapp bigger icon
-                                  iconSize: 50.0,
-                                  icon: Icon(FFHIcon.heart, color: Colors.red),
-                                  onPressed: () {
-                                    Firestore.instance
-                                        .collection("topics")
-                                        .document(snapshots.documentID)
-                                        .updateData({
-                                      'value': snapshot.data['value'] + 1
-                                    });
-                                  })),
+                              child: new FittedBox(
+                                  fit: BoxFit.contain,
+                                  child: IconButton(
+//                                    fiapp right size
+                                      iconSize: 60.0,
+                                      icon: Icon(
+                                        FFHIcon.heart,
+                                        color: Colors.red,
+//                                        fiapp right size
+                                        size: 52.0,
+                                      ),
+                                      onPressed: () {
+                                        Firestore.instance
+                                            .collection("topics")
+                                            .document(snapshots.documentID)
+                                            .updateData({
+                                          'value': snapshot.data['value'] + 1
+                                        });
+                                      }))),
                         ),
                         Hero(
                           tag: "${snapshots.documentID}_value_dec",
                           child: Material(
                               color: Colors.transparent,
-                              child: IconButton(
-                                //fiapp bigger icon
-                                  iconSize: 50.0,
-                                  icon: Icon(FFHIcon.heart_empty,
-                                      color: Colors.red),
-                                  onPressed: () {
-                                    Firestore.instance
-                                        .collection("topics")
-                                        .document(snapshots.documentID)
-                                        .updateData({
-                                      'value': snapshot.data['value'] - 1
-                                    });
-                                  })),
+                              child: new FittedBox(
+                                  fit: BoxFit.contain,
+                                  child: IconButton(
+//                                    fiapp right size
+                                      iconSize: 60.0,
+                                      icon: Icon(FFHIcon.heart_empty,
+//                                          fiapp right size
+                                          color: Colors.red,
+                                          size: 52.0),
+                                      onPressed: () {
+                                        Firestore.instance
+                                            .collection("topics")
+                                            .document(snapshots.documentID)
+                                            .updateData({
+                                          'value': snapshot.data['value'] - 1
+                                        });
+                                      }))),
                         ),
                       ],
                     );
