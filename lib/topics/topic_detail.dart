@@ -89,7 +89,7 @@ class _TopicDetailState extends State<TopicDetailPage> {
                                     : "${snapshots['value']}",
                                 style: TextStyle(
                                     color: Colors.red,
-                                    fontSize: 30.0,
+                                    fontSize: 50.0,
                                     fontWeight: FontWeight.bold),
                               )),
                         ),
@@ -98,6 +98,8 @@ class _TopicDetailState extends State<TopicDetailPage> {
                           child: Material(
                               color: Colors.transparent,
                               child: IconButton(
+//                                fiapp bigger icon
+                                  iconSize: 50.0,
                                   icon: Icon(FFHIcon.heart, color: Colors.red),
                                   onPressed: () {
                                     Firestore.instance
@@ -113,6 +115,8 @@ class _TopicDetailState extends State<TopicDetailPage> {
                           child: Material(
                               color: Colors.transparent,
                               child: IconButton(
+                                //fiapp bigger icon
+                                  iconSize: 50.0,
                                   icon: Icon(FFHIcon.heart_empty,
                                       color: Colors.red),
                                   onPressed: () {
